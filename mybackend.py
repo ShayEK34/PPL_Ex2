@@ -19,14 +19,14 @@ class Database:
             " INTEGER, TripDurationinmin INTEGER)")
         self.conn.commit()
 
-        # with open('BikeShare.csv', 'r') as f:
-        #     reader = csv.reader(f)
-        #     data = next(reader)
-        #     query = 'insert into BikeShare({0}) values ({1})'
-        #     query = query.format(','.join(data), ','.join('?' * len(data)))
-        #     cursor = self.cursor
-        #     for data in reader:
-        #         cursor.execute(query, data)
-        #     self.conn.commit()
-        #     self.conn.close()
+        with open('C:\\Users\\ShayEK\\Desktop\\BikeShare.csv', 'r') as f:
+            reader = csv.reader(f)
+            data = next(reader)
+            query = 'insert into BikeShare({0}) values ({1})'
+            query = query.format(','.join(data), ','.join('?' * len(data)))
+            cursor = self.cursor
+            for data in reader:
+                cursor.execute(query, data)
+            self.conn.commit()
+            self.conn.close()
 
