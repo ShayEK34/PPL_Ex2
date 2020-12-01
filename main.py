@@ -1,4 +1,5 @@
 import time
+from myfrontend import *
 
 import kivy
 import mybackend
@@ -7,9 +8,9 @@ from kivy.uix.label import Label
 from kivy.uix.gridlayout import GridLayout
 
 
-class MyApp(App):
-    def build(self):
-        return Label(text="Our first app")
+# class MyApp(App):
+#     def build(self):
+#         return Label(text="Our first app")
 
 
 
@@ -27,9 +28,10 @@ def print_hi(name):
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    # MyApp().run()
+    MyApp().run()
     # time_start_logreg = time.time()
-    db = mybackend.Database()
-    print(db)
+    # db = mybackend.Database()
+    # res =db.execute_query("City Hall",3)
+    # print(res)
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/

@@ -28,5 +28,14 @@ class Database:
             for data in reader:
                 cursor.execute(query, data)
             self.conn.commit()
-            self.conn.close()
+
+        # execute the search query on the DB.
+    def execute_query(self, start_station_name, time_duration):
+        query = "SELECT * FROM bikeShare WHERE StartStationName = '" + start_station_name + "' AND TripDurationinmin <= '" + str(time_duration) + "'"
+        results = self.cursor.execute(query)
+        cols = [column[0] for column in results.description]
+        df = pd.DataFrame.from_records(data=results.fetchall(), columns=cols)
+        return df
+
+
 
