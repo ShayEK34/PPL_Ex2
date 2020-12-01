@@ -1,16 +1,17 @@
 import time
 from myfrontend import *
+from myfrontend import *
 
 import kivy
 import mybackend
-from kivy.app import App
-from kivy.uix.label import Label
-from kivy.uix.gridlayout import GridLayout
-
+import myfrontend
 
 # class MyApp(App):
 #     def build(self):
 #         return Label(text="Our first app")
+class MyApp(App):
+    def build(self):
+        return Label(text="Our first app")
 
 
 
@@ -31,7 +32,6 @@ if __name__ == '__main__':
     MyApp().run()
     # time_start_logreg = time.time()
     # db = mybackend.Database()
-    # res =db.execute_query("City Hall",3)
-    # print(res)
+    # print(db)
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
