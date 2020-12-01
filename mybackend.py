@@ -19,7 +19,7 @@ class Database:
             " INTEGER, TripDurationinmin INTEGER)")
         self.conn.commit()
 
-        with open('C:\\Users\\ShayEK\\Desktop\\BikeShare.csv', 'r') as f:
+        with open('BikeShare.csv', 'r') as f:
             reader = csv.reader(f)
             data = next(reader)
             query = 'insert into BikeShare({0}) values ({1})'
