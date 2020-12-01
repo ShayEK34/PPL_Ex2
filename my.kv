@@ -1,0 +1,55 @@
+<Button>:
+    color: 0.3, 0.6, 0.7,1
+
+<MyGrid>
+    canvas.before:
+        Color:
+            rgba: rgba('#a16d30')
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: "bicycle.jpg"
+
+    cur_location: cur_location
+    spend_time: spend_time
+    recommendations: recommendations
+
+    GridLayout:
+        cols:1
+        size: root.width-180, root.height-180
+        pos: 90,90
+        Image:
+            source: "bicycle.jpg"
+
+        GridLayout:
+            cols:2
+
+            Label:
+                text: "what is your current location?"
+            TextInput:
+                id: cur_location
+                multinline: False
+
+            Label:
+                text: "How much time would you like to spend?"
+            TextInput:
+                id: spend_time
+                multinline: False
+
+            Label:
+                text:"The number of recommendations is desirable"
+            TextInput:
+                id: recommendations
+                multinline: False
+
+        GridLayout:
+            cols:3
+
+            Label:
+                text: " "
+
+            Button:
+                size:75, 50
+                size_hint: None, None
+                text: "Submit"
+                on_press: root.btn()
