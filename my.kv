@@ -1,7 +1,14 @@
 <Button>:
-    color: 0.3, 0.6, 0.7,1
+    color: rgba('#f6e58a')
+    background_color: rgba('#f6e58a')
 
-<MyGrid>
+<p>:
+    Label:
+        text: "hi!"
+        size_hint: 0.6,0.2
+        pos_hint: {"x":0.2, "top":1}
+
+<MyGrid>:
     canvas.before:
         Color:
             rgba: rgba('#a16d30')
@@ -18,8 +25,15 @@
         cols:1
         size: root.width-180, root.height-180
         pos: 90,90
+
+        Label:
+            text: "welcome to our recommendations trip system"
+            font_size: 30
         Image:
             source: "bicycle.jpg"
+
+        Label:
+            text: " "
 
         GridLayout:
             cols:2
@@ -43,13 +57,9 @@
                 multinline: False
 
         GridLayout:
-            cols:3
-
-            Label:
-                text: " "
-
             Button:
                 size:75, 50
                 size_hint: None, None
+                pos: 350 ,100
                 text: "Submit"
                 on_press: root.btn()
