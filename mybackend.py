@@ -49,8 +49,11 @@ class Database:
         results = self.execute_search_query_db(start_station_name,time_duration)
         n_results = results.head(int(num))
         destinations = n_results['EndStationName']
-        print(destinations)
+        destinations=self.prepareAns(destinations)
         return  destinations
+
+    def prepareAns(self, destinations):
+        return '\n'.join(destinations)
 
     def check_record_num(self):
         query = "SELECT * FROM bikeShare"
