@@ -1,6 +1,8 @@
 
 
 import kivy
+from kivy.uix.label import Label
+
 import mybackend
 
 from kivy.app import App
@@ -29,12 +31,13 @@ class MyGrid(GridLayout):
             ans= self.db.check_if_station_exist(self.cur_location.text)
             if ans==1:
                 destinations= self.db.calculate_res(self.cur_location.text,self.spend_time.text, self.recommendations.text)
-                show_popup(str(destinations))
+                print(destinations)
+                show_popup_ans(str(destinations))
             else:
                 show_popup('location does not exist')
-        self.cur_location= ""
-        self.spend_time= ""
-        self.recommendations.text= ""
+        self.cur_location.text=""
+        self.spend_time.text=""
+        self.recommendations.text=""
 
 
     def valid_values(self):
@@ -56,13 +59,27 @@ class MyGrid(GridLayout):
             return False
 
 def show_popup(command):
-    show= p()
-
-    popupWin= Popup(title= command, content= show, size_hint= (None,None),
+    popupWin= Popup(title= "Error",
+                    content= Label(text=command), size_hint= (None,None),
                     size=(400,400))
-
     popupWin.open()
 
+
+def prepareAns(command):
+    ans= command.split("\n")
+    clean_ans=""
+    for line in ans:
+        doubleSplit= line.split("    ")
+        if len(doubleSplit)>1:
+            clean_ans+= doubleSplit[1] +"\n"
+    return clean_ans
+
+
+def show_popup_ans(ans):
+    popupWin= Popup(title= "Recommended Locations",
+                    content= Label(text="We recommend you to travel: \n"+ ans), size_hint= (None,None),
+                    size=(400,400))
+    popupWin.open()
 
 class MyApp(App):
     def build(self):
