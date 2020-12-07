@@ -10,69 +10,114 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.properties import ObjectProperty
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.popup import Popup
-
+from kivy.animation import Animation
+from kivy.core.audio import SoundLoader
 
 class p(FloatLayout):
     pass
 
+
 class MyGrid(GridLayout):
-    cur_location= ObjectProperty(None)
-    spend_time= ObjectProperty(None)
-    recommendations= ObjectProperty(None)
+    cur_location = ObjectProperty(None)
+    spend_time = ObjectProperty(None)
+    recommendations = ObjectProperty(None)
+
 
     def btn(self):
-        self.db = mybackend.Database()
-
         print(str(self.cur_location.text), 'cur_location')
         print(str(self.spend_time.text), 'spend_time')
         print(str(self.recommendations.text), 'recommendations')
 
-        if self.valid_values():
-            ans= self.db.check_if_station_exist(self.cur_location.text)
+        if valid_values(self):
+            music = SoundLoader.load('Queen-Bicycle.wav')
+            if music:
+                music.play()
+            prep_location=prepare_data(self.cur_location.text)
+            self.db = mybackend.Database()
+            ans= self.db.check_if_station_exist(prep_location)
             if ans==1:
-                destinations= self.db.calculate_res(self.cur_location.text,self.spend_time.text, self.recommendations.text)
-                print(destinations)
-                show_popup_ans(str(destinations))
+                destinations= self.db.calculate_res(prep_location,self.spend_time.text, self.recommendations.text)
+                if(len(destinations.split('\n'))<(int)(self.recommendations.text)):
+                    show_popup_ans("we found only "+str(len(destinations.split('\n')))+" places to travel: "+str(destinations))
+                else:
+                    show_popup_ans(str(destinations))
             else:
-                show_popup('location does not exist')
+                show_popup('location does not exist in the db')
+
         self.cur_location.text=""
         self.spend_time.text=""
         self.recommendations.text=""
 
+    def animate(self):
+        # create an animation object. This object could be stored
+        # and reused each call or reused across different widgets.
+        # += is a sequential step, while &= is in parallel
+        animation = Animation(pos=(100, 100), t='out_bounce')
+        animation += Animation(pos=(200, 100), t='out_bounce')
+        animation &= Animation(size=(500, 500))
+        animation += Animation(size=(100, 50))
 
-    def valid_values(self):
-        try:
-            if not isinstance(self.cur_location.text, str):
-                show_popup('location is not valid')
-                return False
+        # apply the animation on the button, passed in the "instance" argument
+        # Notice that default 'click' animation (changing the button
+        # color while the mouse is down) is unchanged.
+        animation.start(self)
 
-            if not isinstance(int(self.spend_time.text), int):
-                show_popup('spend time is not valid')
-                return False
 
-            if not isinstance(int(self.recommendations.text), int):
-                show_popup('recommendations is not valid')
-                return False
+def prepare_data(location):
+    ans=""
+    if ' ' in location:
+        location_array= location.split(' ')
+        for word in location_array:
+            if ans=="":
+                ans= ans + word.capitalize()
+            else:
+                ans= ans+' '+ word.capitalize()
+    return ans
 
-            return True
-        except:
+
+def only_alpha(param):
+    if ' ' in param:
+        params_array= param.split(' ')
+        if ' ' in params_array:
+            params_array.remove(' ')
+        return all(word.isalpha() for word in params_array)
+    return param.isalpha()
+
+
+def only_numbers(param):
+    return all(char.isdigit() for char in param)
+
+
+def valid_values(self):
+    try:
+        if self.cur_location.text=='':
+            show_popup('location should not by empty')
             return False
+        if not only_alpha(self.cur_location.text):
+            show_popup('location should consist of letters only')
+            return False
+        if self.spend_time.text == '':
+            show_popup('spend time should not by empty')
+            return False
+        if not only_numbers(self.spend_time.text):
+            show_popup('spend time is not valid')
+            return False
+        if self.recommendations.text == '':
+            show_popup('recommendations should not by empty')
+            return False
+        if not only_numbers(self.recommendations.text):
+            show_popup('recommendations is not valid')
+            return False
+        return True
+    except:
+        return False
+
 
 def show_popup(command):
     popupWin= Popup(title= "Error",
                     content= Label(text=command), size_hint= (None,None),
                     size=(400,400))
     popupWin.open()
-
-
-def prepareAns(command):
-    ans= command.split("\n")
-    clean_ans=""
-    for line in ans:
-        doubleSplit= line.split("    ")
-        if len(doubleSplit)>1:
-            clean_ans+= doubleSplit[1] +"\n"
-    return clean_ans
 
 
 def show_popup_ans(ans):

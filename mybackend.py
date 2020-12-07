@@ -47,7 +47,10 @@ class Database:
 
     def calculate_res(self, start_station_name, time_duration, num):
         results = self.execute_search_query_db(start_station_name,time_duration)
-        n_results = results.head(int(num))
+        if(len(results)<int(num)):
+            n_results = results.head(len(results))
+        else:
+            n_results = results.head(int(num))
         destinations = n_results['EndStationName']
         destinations=self.prepareAns(destinations)
         return  destinations
@@ -71,4 +74,5 @@ class Database:
         df = pd.DataFrame.from_records(data=records, columns=cols)
         is_exist = df.shape[0]
         return is_exist
+
 
