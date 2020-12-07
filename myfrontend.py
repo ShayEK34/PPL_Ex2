@@ -12,6 +12,7 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.popup import Popup
 from kivy.animation import Animation
 from kivy.core.audio import SoundLoader
+from kivy.uix.switch import Switch
 
 class p(FloatLayout):
     pass
@@ -22,11 +23,18 @@ class MyGrid(GridLayout):
     spend_time = ObjectProperty(None)
     recommendations = ObjectProperty(None)
 
+    # def switch_callback(self, switchObject, switchValue):
+    #
+    #     # Switch value are True and False
+    #     if (switchValue):
+    #         print('Switch is ON:):):)')
+    #     else:
+    #         print('Switch is OFF:(:(:(')
 
     def btn(self):
-        print(str(self.cur_location.text), 'cur_location')
-        print(str(self.spend_time.text), 'spend_time')
-        print(str(self.recommendations.text), 'recommendations')
+        # print(str(self.cur_location.text), 'cur_location')
+        # print(str(self.spend_time.text), 'spend_time')
+        # print(str(self.recommendations.text), 'recommendations')
 
         if valid_values(self):
             music = SoundLoader.load('Queen-Bicycle.wav')
@@ -38,7 +46,7 @@ class MyGrid(GridLayout):
             if ans==1:
                 destinations= self.db.calculate_res(prep_location,self.spend_time.text, self.recommendations.text)
                 if(len(destinations.split('\n'))<(int)(self.recommendations.text)):
-                    show_popup_ans("we found only "+str(len(destinations.split('\n')))+" places to travel: "+str(destinations))
+                    show_popup_ans("\nwe found only "+str(len(destinations.split('\n')))+" places to travel: \n"+str(destinations))
                 else:
                     show_popup_ans(str(destinations))
             else:

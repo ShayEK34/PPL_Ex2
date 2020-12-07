@@ -47,7 +47,6 @@ class Database:
         try:
             data_duplicates_removed.to_sql(name='BikeShare',con=self.conn, if_exists='fail', index=False)
         except ValueError as err:
-            print(err)
             pass
 
     def execute_search_query_db(self, start_station_name, time_duration):
