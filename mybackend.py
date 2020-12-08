@@ -118,3 +118,4 @@ class Database:
                 else:
                     ans = ans + ' ' + word.capitalize()
         return ans
+

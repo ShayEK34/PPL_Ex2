@@ -35,9 +35,13 @@ class MyGrid(GridLayout):
     def btn(self):
         if valid_values(self):
             # activate the music when the user ask for recommendations
-            music = SoundLoader.load('Queen-Bicycle.wav')
-            if music:
-                music.play()
+            try:
+                if(self.music.status=='play'):
+                    pass
+            except:
+                self.music = SoundLoader.load('Queen-Bicycle.wav')
+                self.music.play()
+
             self.db = mybackend.Database()
             ans= self.db.check_if_station_exist(self.cur_location.text)
             if ans==1:    # ans==1 means there is an answer
